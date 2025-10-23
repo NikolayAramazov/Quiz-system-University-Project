@@ -1,0 +1,37 @@
+.question-card {
+  background: #1e1e2e;
+  color: #eee;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+.answer-input {
+  width: 60%;
+  padding: 6px 8px;
+  border-radius: 4px;
+  border: none;
+  margin-right: 8px;
+}
+.submit-answer {
+  background: #5b9bd5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+.feedback {
+  margin-left: 10px;
+  font-weight: bold;
+}
+.correct {
+  border-left: 5px solid #00ff88;
+}
+
+.quiz_container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 80%;
+    margin: auto;
+}

@@ -1,0 +1,92 @@
+.sign-in-container,
+.register-container {
+    margin: auto;
+    width: 500px;
+    box-shadow: rgba(0, 0, 0, 0.6) 0 14px 28px,
+                rgba(0, 0, 0, 0.4) 0px 10px 10px;
+    padding: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background-color: var(--card);
+    border-radius: 8px;
+    color: #e6eef0;
+}
+
+.sign-in-title,
+.sign-up-title {
+    text-align: center;
+    padding-bottom: 10px;
+    color: #e6eef0;
+    font-size: 24px;
+}
+
+.sign-in-form,
+.sign-up-form {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 16px;
+    color: #ccc;
+    font-weight: 500;
+}
+
+.form-control {
+    padding: 12px;
+    background-color: #121212;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    font-size: 16px;
+    color: #e6eef0;
+    width: 100%;
+    box-sizing: border-box;
+}
+.form-control::placeholder {
+    color: #888;
+}
+.form-control:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(20, 209, 138, 0.2);
+}
+
+button.btn.btn-primary,
+a.btn.btn-primary {
+    margin: 20px auto 0;
+    width: 200px;
+    padding: 12px;
+    color: #000;
+    background-color: var(--accent);
+    border-color: var(--accent);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: block;
+}
+button.btn.btn-primary:hover {
+    background-color: #10c17a;
+}
+button.btn.btn-primary:focus,
+button.btn.btn-primary:active {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(20, 209, 138, 0.3);
+}
+
+.alert-danger {
+    color: #f8d7da;
+    background-color: rgba(248, 215, 218, 0.1);
+    border: 1px solid rgba(245, 198, 203, 0.3);
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    font-size: 14px;
+}

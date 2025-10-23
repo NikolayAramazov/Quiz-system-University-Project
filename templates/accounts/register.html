@@ -1,0 +1,56 @@
+{% extends 'common.html' %}
+
+{% block title %}Sign Up - SMT{% endblock %}
+
+{% block content %}
+<div class="register-container">
+    <h2 class="sign-up-title">Create an Account</h2>
+
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                    <p>{{ field|title }}: {{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="POST" class="sign-up-form" autocomplete="off" novalidate>
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="signup-username">Username</label>
+            <input type="text" class="form-control" id="signup-username" name="username"
+                   required autocomplete="new-username" autocapitalize="off" autocorrect="off"
+                   value="{% if form.username.value %}{{ form.username.value }}{% endif %}">
+        </div>
+
+        <div class="form-group">
+            <label for="signup-email">Email</label>
+            <input type="email" class="form-control" id="signup-email" name="email"
+                   required autocomplete="new-email" autocapitalize="off"
+                   value="{% if form.email.value %}{{ form.email.value }}{% endif %}">
+        </div>
+
+        <div class="form-group">
+            <label for="signup-password1">Password</label>
+            <input type="password" class="form-control" id="signup-password1" name="password1"
+                   required autocomplete="new-password">
+        </div>
+
+        <div class="form-group">
+            <label for="signup-password2">Confirm Password</label>
+            <input type="password" class="form-control" id="signup-password2" name="password2"
+                   required autocomplete="new-password">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+
+        <div class="login-link">
+            Already have an account? <a href="{% url 'accounts:sign_in' %}">Log in</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

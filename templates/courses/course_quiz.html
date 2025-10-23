@@ -1,0 +1,69 @@
+{% extends "common.html" %}
+{% block content %}
+
+<div class="quiz_container">
+    <h1>{{ course.title }}</h1>
+    <p>Level: {{ course.level }} | Duration: {{ course.duration }}</p>
+
+    <div id="questions">
+      {% for q in questions %}
+        <div class="question-card" data-qid="{{ q.id }}">
+          <h3>Q{{ q.order }}: {{ q.prompt }}</h3>
+          {% if q.info %}
+            <p class="info">{{ q.info }}</p>
+          {% endif %}
+
+          <input
+            type="text"
+            class="answer-input"
+            placeholder="Type your answer..."
+            {% if answers.q.id and answers.q.id.is_correct %}disabled{% endif %}
+            value="{{ answers.q.id.answer|default:'' }}"
+          >
+          <button class="submit-answer">Submit</button>
+          <span class="feedback">
+            {% if answers.q.id %}
+              {% if answers.q.id.is_correct %}
+                ✅ Correct!
+              {% else %}
+                ❌ Incorrect — try again.
+              {% endif %}
+            {% endif %}
+          </span>
+        </div>
+        <hr>
+      {% endfor %}
+    </div>
+</div>
+<script>
+document.querySelectorAll('.submit-answer').forEach(btn => {
+  btn.addEventListener('click', async (e) => {
+    const card = e.target.closest('.question-card');
+    const qid = card.dataset.qid;
+    const input = card.querySelector('.answer-input');
+    const feedback = card.querySelector('.feedback');
+    const answer = input.value.trim();
+
+    const response = await fetch(`/courses/questions/${qid}/check/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': '{{ csrf_token }}'
+      },
+      body: JSON.stringify({ answer })
+    });
+
+    const result = await response.json();
+    if (result.correct) {
+      feedback.textContent = "✅ Correct!";
+      input.disabled = true;
+      card.classList.add('correct');
+    } else {
+      feedback.textContent = "❌ Incorrect — try again.";
+      card.classList.remove('correct');
+    }
+  });
+});
+</script>
+
+{% endblock %}
