@@ -7,6 +7,7 @@
 
     <div id="questions">
       {% for q in questions %}
+        {% with ua=answers.q.id %}
         <div class="question-card" data-qid="{{ q.id }}">
           <h3>Q{{ q.order }}: {{ q.prompt }}</h3>
           {% if q.info %}
@@ -17,13 +18,13 @@
             type="text"
             class="answer-input"
             placeholder="Type your answer..."
-            {% if answers.q.id and answers.q.id.is_correct %}disabled{% endif %}
-            value="{{ answers.q.id.answer|default:'' }}"
+            {% if ua and ua.is_correct %}disabled{% endif %}
+            value="{{ ua.answer|default:'' }}"
           >
           <button class="submit-answer">Submit</button>
           <span class="feedback">
-            {% if answers.q.id %}
-              {% if answers.q.id.is_correct %}
+            {% if ua %}
+              {% if ua.is_correct %}
                 ✅ Correct!
               {% else %}
                 ❌ Incorrect — try again.
@@ -32,10 +33,29 @@
           </span>
         </div>
         <hr>
+        {% endwith %}
       {% endfor %}
     </div>
+
+    <form id="complete-form" action="{% url 'courses:course_complete' course.slug %}" method="post">
+        {% csrf_token %}
+        <button id="complete-course-btn" type="submit" disabled>Complete Course</button>
+    </form>
 </div>
+
 <script>
+const csrfToken = '{{ csrf_token }}';
+
+function allQuestionsCorrect() {
+  const cards = document.querySelectorAll('.question-card');
+  return Array.from(cards).every(card => card.classList.contains('correct'));
+}
+
+function updateButtonState() {
+  const button = document.getElementById('complete-course-btn');
+  button.disabled = !allQuestionsCorrect();
+}
+
 document.querySelectorAll('.submit-answer').forEach(btn => {
   btn.addEventListener('click', async (e) => {
     const card = e.target.closest('.question-card');
@@ -48,7 +68,7 @@ document.querySelectorAll('.submit-answer').forEach(btn => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRFToken': '{{ csrf_token }}'
+        'X-CSRFToken': csrfToken
       },
       body: JSON.stringify({ answer })
     });
@@ -62,6 +82,8 @@ document.querySelectorAll('.submit-answer').forEach(btn => {
       feedback.textContent = "❌ Incorrect — try again.";
       card.classList.remove('correct');
     }
+
+    updateButtonState();
   });
 });
 </script>

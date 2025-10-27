@@ -35,3 +35,11 @@
     width: 80%;
     margin: auto;
 }
+
+button.complete_course {
+    margin: auto;
+    height: 50px;
+    border-radius: 10%;
+    background: #5a9ad3;
+    color: white;
+}

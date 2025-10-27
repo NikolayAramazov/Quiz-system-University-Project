@@ -60,7 +60,7 @@ a { color:var(--accent); }
 .bg-darkish{ background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02)); border-top:1px solid rgba(255,255,255,0.02); border-bottom:1px solid rgba(255,255,255,0.02); }
 
 .course-card{ background:var(--card); border-radius:8px; overflow:hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.6); }
-.course-thumb{ height:140px; background-size:cover; background-position:center; }
+.course-thumb{ height:300px; background-size:cover; background-position:center; }
 .course-card h5{ color:#fff; }
 
 .step{ width:64px; height:64px; margin:0 auto 8px; border-radius:50%; background:linear-gradient(180deg, #121212, #0f0f12); display:flex; align-items:center; justify-content:center; color:var(--accent); font-weight:700; font-size:1.25rem; border:1px solid rgba(255,255,255,0.04); }

@@ -1,0 +1,57 @@
+{% extends "common.html" %}
+{% block content %}
+
+<style>
+.course-complete-container {
+    text-align: center;
+    padding: 60px 20px;
+    background: #0b0b0b;
+    border: 1px solid #14cf89;
+    border-radius: 10px;
+    max-width: 700px;
+    margin: 80px auto;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.course-complete-container h1 {
+    font-size: 2.5em;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.course-complete-container p {
+    font-size: 1.2em;
+    color: #ffffff;
+    margin-bottom: 30px;
+}
+
+.course-complete-container .emoji {
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+
+.course-complete-container a.btn-home {
+    display: inline-block;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.course-complete-container a.btn-home:hover {
+    background-color: #2980b9;
+}
+</style>
+
+<div class="course-complete-container">
+    <div class="emoji">🎉</div>
+    <h1>Congratulations!</h1>
+    <p>You’ve successfully completed <strong>{{ course.title }}</strong>!</p>
+
+    <a href="{% url 'common:home' %}" class="btn-home">🏠 Back to Home</a>
+</div>
+
+{% endblock %}

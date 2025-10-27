@@ -42,7 +42,7 @@
 
       <div class="col-md-5 hero-image d-none d-md-block">
         <div class="term-card">
-          <img src="/static/media/linux-security-tools-featured-image.jpg" alt="terminal" />
+          <img src="/media/linux-security-tools-featured-image.jpg" alt="terminal" />
           <div class="term-overlay">
             <pre><code>$ ssh student@lab
 $ sudo apt update
@@ -96,6 +96,9 @@ $ ./exploit --target 10.10.0.5</code></pre>
               <h5 class="mb-1">{{ course.title }}</h5>
               <p class="small text-muted mb-2">{{ course.level }} • {{ course.duration }}</p>
               <a href="{% url 'courses:course_quiz' slug=course.slug %}" class="btn btn-sm btn-outline-light">Open</a>
+                {% if completed_courses %}
+                    <i class="fa-solid fa-check" style="color: #00ff88; font-size: x-large"></i>
+                {% endif %}
             </div>
           </div>
         </div>
