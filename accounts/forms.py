@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+from accounts.models import Profile
+
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField()
@@ -21,3 +23,17 @@ class RegisterForm(UserCreationForm):
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError(f"{email} is already registered.")
         return email
+
+class UserProfileForm(forms.ModelForm):
+    profile_img = forms.ImageField(
+        required=False,
+        widget=forms.FileInput(attrs={'class': 'img_button'}),
+    )
+
+    class Meta:
+        model = User
+        fields = ['username', 'email']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].help_text = ''

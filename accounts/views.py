@@ -1,8 +1,11 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
-
-from accounts.forms import RegisterForm
+from django.urls import reverse_lazy
+from django.views.generic import UpdateView
+from accounts.forms import RegisterForm, UserProfileForm
+from accounts.models import Profile
+from courses.models import UserCourseProgress
 
 
 # Create your views here.
@@ -38,3 +41,33 @@ def register(request):
 def sign_out(request):
     logout(request)
     return redirect('common:home')
+
+def profile_view(request):
+    user =request.user
+    completed_courses = UserCourseProgress.objects.filter(user=request.user, completed=True)
+    return render(request, 'accounts/profile.html', context={'user': user, 'completed_courses': completed_courses})
+
+def edit_profile(request):
+    user = request.user
+    profile = user.profile
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+
+            profile_img = form.cleaned_data.get('profile_img')
+            if profile_img:
+                profile.profile_img = profile_img
+            profile.save()
+
+            return redirect('accounts:profile')
+    else:
+        form = UserProfileForm(
+            instance=user,
+            initial={
+                'profile_img': profile.profile_img,
+            }
+        )
+
+    return render(request, 'accounts/edit_profile.html', {'form': form})

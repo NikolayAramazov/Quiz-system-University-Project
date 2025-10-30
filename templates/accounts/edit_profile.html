@@ -1,0 +1,27 @@
+{% extends "common.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5 edit_profile">
+  <div class="term-card p-4">
+    <h2 class="mb-4"><i class="fa fa-user-edit green"></i> Edit Profile</h2>
+
+    <!-- Current Profile Picture -->
+    <div class="mb-4 text-center">
+      {% if user.profile.profile_img %}
+        <img src="{{ user.profile.profile_img.url }}"
+             alt="{{ user.username }} profile pic"
+             class="avatar-img mb-3"
+             style="width:120px; height:120px; border-radius:50%; object-fit:cover;">
+      {% endif %}
+    </div>
+
+    <!-- Form -->
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-cta">Save Changes</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -4,7 +4,7 @@ from django.db import models
 class Course(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
-    thumbnail = models.ImageField(upload_to='course_thumbnails/', default='static/course_thumbnails/download.jpg')
+    thumbnail = models.ImageField(upload_to='course_thumbnails/', default='course_thumbnails/download.jpg')
     level = models.CharField(max_length=50, default='Beginner')
     duration = models.CharField(max_length=50, default='30 minutes')
 

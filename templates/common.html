@@ -12,18 +12,31 @@
 <body>
 
   <!-- Navbar -->
-  <nav class="nav-bar d-flex justify-content-end align-items-center p-3 bg-dark">
-    {% if user.is_authenticated %}
-      <form action="{% url 'accounts:logout' %}" method="post" class="d-inline">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-outline-light">Sign out</button>
-      </form>
-    {% else %}
-      <a href="{% url 'accounts:sign_in' %}">
-        <button type="button" class="btn btn-outline-light">Sign in</button>
-      </a>
-    {% endif %}
-  </nav>
+  <nav class="nav-bar d-flex justify-content-between align-items-center p-3 bg-dark">
+    <!-- Left: Home Button -->
+        <a href="{% url 'common:home' %}">
+            <img src="/media/home_btn.png" alt="Home" style="width: 90px;">
+        </a>
+
+    <!-- Right: Sign in / Profile / Logout -->
+    <div class="d-flex align-items-center">
+        {% if user.is_authenticated %}
+            <form action="{% url 'accounts:logout' %}" method="post" class="d-inline me-2">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-light">Sign out</button>
+            </form>
+            <a href="{% url 'accounts:profile' %}">
+                <img src="{{ user.profile.profile_img.url }}"
+                     alt="Profile"
+                     style="border: 1px solid #00ff88; border-radius: 50%; padding: 5px; width: 55px;">
+            </a>
+        {% else %}
+            <a href="{% url 'accounts:sign_in' %}">
+                <button type="button" class="btn btn-outline-light">Sign in</button>
+            </a>
+        {% endif %}
+    </div>
+</nav>
 
   {% if request.path == '/' %}
 
@@ -87,7 +100,6 @@ $ ./exploit --target 10.10.0.5</code></pre>
       </div>
 
       <div class="row">
-        {% comment %} Replace the following static cards with a loop over actual course objects {% endcomment %}
         {% for course in courses %}
         <div class="col-md-6 col-lg-3 mb-4">
           <div class="course-card h-100">
@@ -95,7 +107,11 @@ $ ./exploit --target 10.10.0.5</code></pre>
             <div class="p-3">
               <h5 class="mb-1">{{ course.title }}</h5>
               <p class="small text-muted mb-2">{{ course.level }} • {{ course.duration }}</p>
-              <a href="{% url 'courses:course_quiz' slug=course.slug %}" class="btn btn-sm btn-outline-light">Open</a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'courses:course_quiz' slug=course.slug %}" class="btn btn-sm btn-outline-light">Open</a>
+                {% else %}
+                <a href="{% url 'accounts:sign_in'  %}" class="btn btn-sm btn-outline-light">Open</a>
+                {% endif %}
                 {% if completed_courses %}
                     <i class="fa-solid fa-check" style="color: #00ff88; font-size: x-large"></i>
                 {% endif %}

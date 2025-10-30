@@ -1,0 +1,17 @@
+.profile-header.term-card.p-4.mb-5.d-flex.flex-column.flex-md-row.align-items-center {
+    max-width: 1300px;
+    max-height: 300px;
+}
+
+img.avatar-img {
+    height: 30%;
+    border-radius: 100%;
+}
+
+.term-card.p-4 {
+    margin: auto;
+}
+
+.edit_profile {
+    margin-top: 100px;
+}
