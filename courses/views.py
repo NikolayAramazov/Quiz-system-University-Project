@@ -1,6 +1,8 @@
 import json
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
+
+from .forms import SearchForm
 from .models import Course, Question, UserAnswer, UserCourseProgress
 
 
@@ -51,3 +53,23 @@ def complete_course_check(request, slug):
 def course_complete(request, slug):
     course = get_object_or_404(Course, slug=slug)
     return render(request, 'courses/complete_course.html', {'course': course})
+
+def view_courses(request):
+    courses = Course.objects.all()
+    query = request.GET.get('query', '')
+
+    if request.method == 'GET' and  request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if query:
+            courses = Course.objects.filter(title__icontains=query)
+        else:
+            courses = Course.objects.all()
+        return render(request, 'courses/partial_course.html', {'courses': courses, 'query': query})
+
+    form = SearchForm(request.GET)
+
+    context = {
+        'form': form,
+        'courses': courses,
+    }
+
+    return render(request, 'courses/view_courses.html', context)

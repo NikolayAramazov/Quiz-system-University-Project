@@ -8,5 +8,5 @@ urlpatterns = [
     path('questions/<int:question_id>/check/', views.check_answer, name='check_answer'),
     path('courses/<slug:slug>/complete/', views.complete_course_check, name='course_complete_check'),
     path('courses/<slug:slug>/finished/', views.course_complete, name='course_complete'),
-
+    path('view_courses', views.view_courses, name='view_courses'),
 ]
