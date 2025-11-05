@@ -15,3 +15,11 @@ img.avatar-img {
 .edit_profile {
     margin-top: 100px;
 }
+
+p.titles {
+    color: #47cc42;
+    background: #375250;
+    width: 300px;
+    border-radius: 5px;
+    margin: 10px auto auto;
+}

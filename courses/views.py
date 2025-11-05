@@ -1,9 +1,8 @@
 import json
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
-
 from .forms import SearchForm
-from .models import Course, Question, UserAnswer, UserCourseProgress
+from .models import Course, Question, UserAnswer, UserCourseProgress, UserTitle
 
 
 def course_quiz_view(request, slug):
@@ -19,6 +18,11 @@ def course_quiz_view(request, slug):
     }
     return render(request, 'courses/course_quiz.html', context)
 
+
+def course_complete(request, slug):
+    course = get_object_or_404(Course, slug=slug)
+    return render(request, 'courses/complete_course.html', {'course': course})
+
 def check_answer(request, question_id):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -28,8 +32,19 @@ def check_answer(request, question_id):
 
         is_correct = (answer.lower() == question.correct_answer.lower())
 
+        user_answer, created = UserAnswer.objects.update_or_create(
+            user=request.user,
+            question=question,
+            defaults={
+                'answer': answer,
+                'is_correct': is_correct
+            }
+        )
+
         return JsonResponse({'correct': is_correct})
+
     return JsonResponse({'error': 'Invalid request'}, status=400)
+
 
 def complete_course_check(request, slug):
     course = get_object_or_404(Course, slug=slug)
@@ -38,21 +53,26 @@ def complete_course_check(request, slug):
     correct_answers = UserAnswer.objects.filter(
         user=request.user,
         question__course=course,
-        is_correct=True
+        is_correct=True,
     ).count()
 
+    # If the user answered all questions correctly, mark the course as completed
     if correct_answers == total_questions and total_questions > 0:
         progress, _ = UserCourseProgress.objects.get_or_create(user=request.user, course=course)
         progress.completed = True
         progress.save()
-        return redirect('course_complete', slug=course.slug)
+        if course.title_reward and not UserTitle.objects.filter(user=request.user, title=course.title_reward).exists():
+            UserTitle.objects.create(
+                user=request.user,
+                title=course.title_reward,
+            )
+
+        return redirect('courses:course_complete', slug=course.slug)
+
     else:
-        return redirect('course_quiz', slug=course.slug)
+        # If not all answers are correct, redirect back to the quiz page
+        return redirect('courses:course_quiz', slug=course.slug)
 
-
-def course_complete(request, slug):
-    course = get_object_or_404(Course, slug=slug)
-    return render(request, 'courses/complete_course.html', {'course': course})
 
 def view_courses(request):
     courses = Course.objects.all()

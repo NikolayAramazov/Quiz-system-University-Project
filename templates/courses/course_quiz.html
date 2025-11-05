@@ -37,7 +37,7 @@
       {% endfor %}
     </div>
 
-    <form id="complete-form" action="{% url 'courses:course_complete' course.slug %}" method="post">
+    <form id="complete-form" action="{% url 'courses:course_complete_check' course.slug %}" method="post">
         {% csrf_token %}
         <button id="complete-course-btn" type="submit" disabled>Complete Course</button>
     </form>

@@ -4,7 +4,6 @@
 {% block content %}
 <div class="profile-page container py-5">
 
-  <!-- Profile Header -->
   <div class="profile-header term-card p-4 mb-5 d-flex flex-column flex-md-row align-items-center">
     <div class="profile-avatar me-md-4 mb-3 mb-md-0">
       <img src="{{ user.profile.profile_img.url }}" alt="{{ user.username }} avatar" class="avatar-img">
@@ -19,10 +18,14 @@
         <a href="{% url 'accounts:profile_edit' %}" class="btn btn-cta btn-sm">
             <i class="fa fa-edit"></i> Edit Profile
         </a>
+        {% for title in titles %}
+            <div class="title-container">
+            <p class="titles">{{ title.title }}</p>
+            </div>
+        {% endfor %}
     </div>
   </div>
 
-  <!-- Completed Courses Section -->
   <section class="completed-courses">
     <h3 class="section-title mb-4">
       <i class="fa fa-terminal green"></i> Completed Courses

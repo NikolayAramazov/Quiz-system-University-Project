@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import UpdateView
 from accounts.forms import RegisterForm, UserProfileForm
 from accounts.models import Profile
-from courses.models import UserCourseProgress
+from courses.models import UserCourseProgress, UserTitle
 
 
 # Create your views here.
@@ -45,7 +45,8 @@ def sign_out(request):
 def profile_view(request):
     user =request.user
     completed_courses = UserCourseProgress.objects.filter(user=request.user, completed=True)
-    return render(request, 'accounts/profile.html', context={'user': user, 'completed_courses': completed_courses})
+    titles = UserTitle.objects.filter(user=request.user)
+    return render(request, 'accounts/profile.html', context={'user': user, 'completed_courses': completed_courses, 'titles': titles})
 
 def edit_profile(request):
     user = request.user
