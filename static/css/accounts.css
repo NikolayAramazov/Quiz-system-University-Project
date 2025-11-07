@@ -23,3 +23,28 @@ p.titles {
     border-radius: 5px;
     margin: 10px auto auto;
 }
+
+section.leaderboard.mt-5 {
+    width: 400px;
+    border: 1px solid #10463c;
+    padding: 10px;
+    background: #0e1920;
+    border-radius: 10px;
+}
+
+section.courses-leaderboard-wrap {
+    display: flex;
+    justify-content: space-between;
+}
+
+.col-md-6.col-lg-3.mb-4.course-container {
+    width: 800px;
+}
+
+.leaderboard-item.mb-3.d-flex.align-items-center {
+    border-bottom: 1px solid;
+}
+
+.text-muted {
+    color: #ffffff !important;
+}

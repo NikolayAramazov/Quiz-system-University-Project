@@ -10,6 +10,7 @@ class Course(models.Model):
     duration = models.CharField(max_length=50, default='30 minutes')
     prerequisite = models.ForeignKey('self', blank=True, null=True, on_delete=models.CASCADE , related_name='unlocks',)
     title_reward = models.CharField(blank=True, max_length=100, null=True, unique=True)
+    points = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title

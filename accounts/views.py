@@ -1,8 +1,6 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from django.views.generic import UpdateView
 from accounts.forms import RegisterForm, UserProfileForm
 from accounts.models import Profile
 from courses.models import UserCourseProgress, UserTitle
@@ -46,7 +44,8 @@ def profile_view(request):
     user =request.user
     completed_courses = UserCourseProgress.objects.filter(user=request.user, completed=True)
     titles = UserTitle.objects.filter(user=request.user)
-    return render(request, 'accounts/profile.html', context={'user': user, 'completed_courses': completed_courses, 'titles': titles})
+    leaderboard = Profile.objects.all().order_by('-total_points')
+    return render(request, 'accounts/profile.html', context={'user': user, 'completed_courses': completed_courses, 'titles': titles, 'leaderboard': leaderboard})
 
 def edit_profile(request):
     user = request.user

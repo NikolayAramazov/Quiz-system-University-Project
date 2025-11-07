@@ -1,39 +1,38 @@
-{% if courses %}
-<div class="row">
-  {% for course in courses %}
-  <div class="col-md-6 col-lg-3 mb-4">
-    <div class="course-card h-100">
-      <div class="course-thumb" style="background-image: url('{{ course.thumbnail.url }}');"></div>
-      <div class="p-3">
-        <h5 class="mb-1">{{ course.title }}</h5>
-        <p class="small text-muted mb-2">{{ course.level }} • {{ course.duration }}</p>
+      <div class="row">
+        {% for course in courses %}
+          <div class="col-md-6 col-lg-3 mb-4">
+            <div class="course-card h-100">
+              <div class="course-thumb" style="background-image: url('{{ course.thumbnail.url }}');"></div>
+              <div class="p-3">
+                <h5 class="mb-1">{{ course.title }}</h5>
+                <p class="small text-muted mb-2">{{ course.level }} • {{ course.duration }}</p>
 
-        {% if user.is_authenticated %}
-            {% if course.prerequisite and course.prerequisite not in completed_courses %}
-                <!-- Locked advanced course -->
-                <button class="btn btn-sm btn-secondary" disabled>
-                    Locked 🔒
-                </button>
-                <small class="text-warning d-block mt-1">
-                    Complete "{{ course.prerequisite.title }}" first
-                </small>
-            {% else %}
-                <a href="{% url 'courses:course_quiz' slug=course.slug %}" class="btn btn-sm btn-outline-light">
-                    Open
-                </a>
-            {% endif %}
-        {% else %}
-            <a href="{% url 'accounts:sign_in' %}" class="btn btn-sm btn-outline-light">Open</a>
-        {% endif %}
+                {% if user.is_authenticated %}
 
-        {% if course in completed_courses %}
-            <i class="fa-solid fa-check" style="color: #00ff88; font-size: x-large"></i>
-        {% endif %}
+                  {% if course.prerequisite and course.prerequisite.id not in completed_courses_ids %}
+                    <button class="btn btn-sm btn-secondary" disabled>
+                      Locked 🔒
+                    </button>
+                    <small class="text-warning d-block mt-1">
+                      Complete "{{ course.prerequisite.title }}" first
+                    </small>
+                  {% else %}
+                    <a href="{% url 'courses:course_quiz' slug=course.slug %}" class="btn btn-sm btn-outline-light">
+                      Open
+                    </a>
+                  {% endif %}
+
+                {% else %}
+                  <a href="{% url 'accounts:sign_in' %}" class="btn btn-sm btn-outline-light">Open</a>
+                {% endif %}
+
+                {% if course in completed_courses %}
+                  <i class="fa-solid fa-check" style="color: #00ff88; font-size: x-large"></i>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% empty %}
+          <p class="text-muted">No courses available yet.</p>
+        {% endfor %}
       </div>
-    </div>
-  </div>
-  {% endfor %}
-</div>
-{% else %}
-<p class="text-muted">No courses found{% if query %} for "{{ query }}"{% endif %}.</p>
-{% endif %}

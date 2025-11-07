@@ -40,6 +40,7 @@
     <form id="complete-form" action="{% url 'courses:course_complete_check' course.slug %}" method="post">
         {% csrf_token %}
         <button id="complete-course-btn" type="submit" disabled>Complete Course</button>
+        <strong class="course_points"> +{{ course_points }} Points</strong>
     </form>
 </div>
 
