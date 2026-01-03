@@ -1,8 +1,4 @@
 from django.contrib import admin
-
-# Register your models here.
-# courses/admin.py
-from django.contrib import admin
 from .models import Course, Question, UserCourseProgress, UserAnswer, UserTitle
 
 

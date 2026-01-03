@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="{% static 'css/main.css' %}?v=1">
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 
   <!-- Navbar -->
   <nav class="nav-bar d-flex justify-content-between align-items-center p-3 bg-dark">
@@ -48,7 +48,11 @@
         <h1 class="display-4"><span class="green">Linux</span> & Cybersecurity labs — learn by doing</h1>
         <p class="lead text-muted">Hands‑on rooms, guided tasks, terminal-first exercises and real-world scenarios.</p>
         <div class="mt-4">
-          <a href="" class="btn btn-cta btn-lg mr-2">Get Started</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'accounts:profile' %}" class="btn btn-cta btn-lg mr-2">Get Started</a>
+                {% else %}
+                <a href="{% url 'accounts:sign_in' %}" class="btn btn-cta btn-lg mr-2">Get Started</a>
+            {% endif %}
           <a href="{% url 'courses:view_courses' %}" class="btn btn-outline-light btn-lg">Browse Courses</a>
         </div>
       </div>
@@ -166,13 +170,15 @@ $ ./exploit --target 10.10.0.5</code></pre>
 
   {% endif %}
 
+<div class="flex-fill">
   {% block content %}
   {% endblock %}
+</div>
 
 <footer class="site-footer py-4">
   <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
     <div class="footer-left text-muted">
-      &copy; {{ current_year }} Your Company Name
+      &copy; Company
     </div>
   </div>
 </footer>
