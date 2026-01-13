@@ -15,7 +15,8 @@
   <nav class="nav-bar d-flex justify-content-between align-items-center p-3 bg-dark">
     <!-- Left: Home Button -->
         <a href="{% url 'common:home' %}">
-            <img src="/media/home_btn.png" alt="Home" style="width: 90px;">
+            <img src={% static 'images/home_btn.png' %} alt="Home" style="width: 90px;">
+
         </a>
 
     <!-- Right: Sign in / Profile / Logout -->
@@ -59,7 +60,7 @@
 
       <div class="col-md-5 hero-image d-none d-md-block">
         <div class="term-card">
-          <img src="/media/linux-security-tools-featured-image.jpg" alt="terminal" />
+          <img src={% static 'images/linux-security-tools-featured-image.jpg' %} alt="terminal" />
           <div class="term-overlay">
             <pre><code>$ ssh student@lab
 $ sudo apt update
