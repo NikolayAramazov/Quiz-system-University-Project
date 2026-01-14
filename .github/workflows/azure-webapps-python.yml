@@ -45,7 +45,9 @@ jobs:
 
 
     - name: Collect static files
-      run: python manage.py collectstatic --noinput
+      run: |
+        source antenv/bin/activate
+        python manage.py collectstatic --noinput
       env:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
