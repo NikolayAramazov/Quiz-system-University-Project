@@ -9,26 +9,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # Step 1: Checkout the repo
     - name: Checkout repo
       uses: actions/checkout@v4
 
+    # Step 2: Set up Python 3.12
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.12'
-        
-    - name: Log via Azure CLI
+
+    # Step 3: Log in to Azure
+    - name: Log in via Azure CLI
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    
-    - name: Zip Django project
+
+    # Step 4: Install dependencies in a virtual environment
+    - name: Install dependencies
       run: |
-        zip -r app.zip manage.py Quiz requirements.txt
-    
+        python -m venv antenv
+        source antenv/bin/activate
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    # Step 5: Zip your project including the virtual environment
+    - name: Zip project with virtual environment
+      run: |
+        zip -r app.zip . -x "antenv/*" ".git/*" "*.pyc" "__pycache__/*"
+
+    # Step 6: Deploy to Azure Web App
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: quiz-system-alwp
         package: app.zip
-
+        slot-name: production
