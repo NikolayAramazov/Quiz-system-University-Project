@@ -25,13 +25,22 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    # Step 4: Install dependencies in a virtual environment
+    # Step 4: Install dependencies
     - name: Install dependencies
       run: |
-        python -m venv antenv
-        source antenv/bin/activate
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+
+    # Step 5: Run Django management commands
+    - name: Run migrations
+      run: python manage.py migrate
+      env:
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        DEBUG: 'False'
+        ALLOWED_HOSTS: quiz-system-alwp.azurewebsites.net
+        STATIC_ROOT: /home/site/wwwroot/static
+        MEDIA_ROOT: /home/site/wwwroot/media
 
     - name: Collect static files
       run: python manage.py collectstatic --noinput
@@ -43,17 +52,10 @@ jobs:
         STATIC_ROOT: /home/site/wwwroot/static
         MEDIA_ROOT: /home/site/wwwroot/media
 
-
-
-    # Step 5: Zip your project including the virtual environment
-    - name: Zip project with virtual environment
-      run: |
-        zip -r app.zip . -x "antenv/*" ".git/*" "*.pyc" "__pycache__/*"
-
     # Step 6: Deploy to Azure Web App
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: quiz-system-alwp
-        package: app.zip
+        package: .
         slot-name: production
