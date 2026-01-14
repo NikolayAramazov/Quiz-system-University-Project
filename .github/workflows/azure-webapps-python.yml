@@ -24,13 +24,14 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
+        python -m venv antenv
+        source antenv/bin/activate
+        pip install --upgrade pip
         pip install -r requirements.txt
-
-    - name: Zip Django project
-      run: |
-        zip -r app.zip manage.py Quiz requirements.txt
-
+    
+    - name: Zip app for deployment
+      run: zip -r app.zip . -x "*.git*" "*.venv*"
+    
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
