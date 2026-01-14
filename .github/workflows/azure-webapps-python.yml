@@ -28,19 +28,21 @@ jobs:
     # Step 4: Install dependencies
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-
-    # Step 5: Run Django management commands
+            python -m venv antenv
+            source antenv/bin/activate
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
+  
     - name: Run migrations
-      run: python manage.py migrate
+      run: |
+        source antenv/bin/activate
+        python manage.py migrate
       env:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DEBUG: 'False'
         ALLOWED_HOSTS: quiz-system-alwp.azurewebsites.net
-        STATIC_ROOT: /home/site/wwwroot/static
-        MEDIA_ROOT: /home/site/wwwroot/media
+
 
     - name: Collect static files
       run: python manage.py collectstatic --noinput
@@ -49,8 +51,8 @@ jobs:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DEBUG: 'False'
         ALLOWED_HOSTS: quiz-system-alwp.azurewebsites.net
-        STATIC_ROOT: /home/site/wwwroot/static
-        MEDIA_ROOT: /home/site/wwwroot/media
+        STATIC_ROOT: ./static
+        MEDIA_ROOT: ./media
 
     # Step 6: Deploy to Azure Web App
     - name: Deploy to Azure Web App
