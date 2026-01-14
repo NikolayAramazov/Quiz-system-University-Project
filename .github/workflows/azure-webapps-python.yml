@@ -29,8 +29,9 @@ jobs:
         pip install --upgrade pip
         pip install -r requirements.txt
     
-    - name: Zip app for deployment
-      run: zip -r app.zip . -x "*.git*" "*.venv*"
+    - name: Zip Django project
+      run: |
+        zip -r app.zip manage.py Quiz requirements.txt
     
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
