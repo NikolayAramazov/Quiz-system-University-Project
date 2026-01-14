@@ -5,7 +5,6 @@ from accounts.forms import RegisterForm, UserProfileForm
 from accounts.models import Profile
 from courses.models import UserCourseProgress, UserTitle
 
-
 # Create your views here.
 
 def sign_in(request):
