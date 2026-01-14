@@ -16,6 +16,11 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.12'
+        
+    - name: Log via Azure CLI
+      uses: azure/login@1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Install dependencies
       run: |
