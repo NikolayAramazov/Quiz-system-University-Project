@@ -17,25 +17,22 @@ jobs:
       with:
         python-version: '3.12'
         
-    - name: Log via Azure CLI
+    - name: Log in to Azure CLI
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     
-    - name: Install dependencies
+    - name: Install dependencies locally (optional, for testing)
       run: |
-        python -m venv venv
-        source venv/bin/activate
-        pip install --upgrade pip
+        python -m pip install --upgrade pip
         pip install -r requirements.txt
     
-    - name: Zip project with dependencies
+    - name: Zip project for deployment
       run: |
-        zip -r app.zip manage.py Quiz requirements.txt venv
+        zip -r app.zip . -x "*.git*" "*.venv*" "*.github*"
     
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: quiz-system-alwp
         package: app.zip
-
