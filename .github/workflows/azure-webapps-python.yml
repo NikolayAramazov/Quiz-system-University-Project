@@ -33,6 +33,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Collect static files
+      run: |
+        python -m venv antenv
+        source antenv/bin/activate
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        python manage.py collectstatic --noinput
+
+
     # Step 5: Zip your project including the virtual environment
     - name: Zip project with virtual environment
       run: |
