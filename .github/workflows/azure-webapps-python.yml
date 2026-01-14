@@ -36,7 +36,7 @@ jobs:
     # Step 5: Zip your project including the virtual environment
     - name: Zip project with virtual environment
       run: |
-        zip -r app.zip manage.py Quiz requirements.txt antenv
+        zip -r app.zip . -x "antenv/*" ".git/*" "*.pyc" "__pycache__/*"
 
     # Step 6: Deploy to Azure Web App
     - name: Deploy to Azure Web App
