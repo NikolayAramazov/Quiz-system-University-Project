@@ -18,7 +18,7 @@ jobs:
         python-version: '3.12'
         
     - name: Log via Azure CLI
-      uses: azure/login@1
+      uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
