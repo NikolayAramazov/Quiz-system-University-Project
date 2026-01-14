@@ -22,9 +22,16 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     
-    - name: Zip Django project
+    - name: Install dependencies
       run: |
-        zip -r app.zip manage.py Quiz requirements.txt
+        python -m venv venv
+        source venv/bin/activate
+        pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Zip project with dependencies
+      run: |
+        zip -r app.zip manage.py Quiz requirements.txt venv
     
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
